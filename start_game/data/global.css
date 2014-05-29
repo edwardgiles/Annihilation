@@ -1,0 +1,33 @@
+﻿h1,h2,h3 {
+	font-variant:small-caps;
+}
+#container {
+	width: 100%;
+}
+.tabheader {
+	vertical-align:middle;
+	cursor:pointer;
+}
+
+.tab .tabheader {
+	background-color:#FF9;
+	color:red;
+}
+.tabactivated .tabheader {
+	background-color:#F60;
+	color:white;
+}
+
+.tab .tabcontent {
+	display:none;
+}
+.tabactivated .tabcontent {
+	display:block;
+}
+.centered {
+	margin-left:auto;
+	margin-right:auto;
+}
+.vertcentered {
+	vertical-align:middle;
+}

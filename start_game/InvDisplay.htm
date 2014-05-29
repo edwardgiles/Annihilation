@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Inventory</title>
+<link rel="stylesheet" href="data/inventory.css" />
+<script type="text/javascript">
+function readInvInput() {
+	// from http://stackoverflow.com/questions/5448545/how-to-retrieve-get-parameters-from-javascript
+	var queryDict = {}
+	location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]})
+	if (!queryDict.page) {queryDict.page = "1";}
+	document.getElementById("invtbl").className = "inventorytable p" + queryDict.page;
+	// The 32s from here to the next comment is the number of slots on the screen.
+	var splitInventory = queryDict.contents.split(";", 32);
+	for (var i=0;i<32;i++) {
+		// The next 32 is the radix of the numeric input.
+		if (!splitInventory[i]) { splitInventory[i] = "0"; }
+		document.getElementById("c" + i).innerHTML = parseInt(splitInventory[i], 32);
+	}
+}
+</script>
+</head>
+<body onload="readInvInput()">
+		<table id="invtbl" class="inventorytable p1" style="width:338px; height:162px;">
+			<tr>
+				<td id="c0">0</td>
+				<td id="c1">0</td>
+				<td id="c2">0</td>
+				<td id="c3">0</td>
+				<td id="c4">0</td>
+				<td id="c5">0</td>
+				<td id="c6">0</td>
+				<td id="c7">0</td>
+			</tr>
+			<tr>
+				<td id="c8">0</td>
+				<td id="c9">0</td>
+				<td id="c10">0</td>
+				<td id="c11">0</td>
+				<td id="c12">0</td>
+				<td id="c13">0</td>
+				<td id="c14">0</td>
+				<td id="c15">0</td>
+			</tr>
+			<tr>
+				<td id="c16">0</td>
+				<td id="c17">0</td>
+				<td id="c18">0</td>
+				<td id="c19">0</td>
+				<td id="c20">0</td>
+				<td id="c21">0</td>
+				<td id="c22">0</td>
+				<td id="c23">0</td>
+			</tr>
+			<tr>
+				<td id="c24">0</td>
+				<td id="c25">0</td>
+				<td id="c26">0</td>
+				<td id="c27">0</td>
+				<td id="c28">0</td>
+				<td id="c29">0</td>
+				<td id="c30">0</td>
+				<td id="c31">0</td>
+			</tr>
+		</table>
+</body>
+
+</html>
