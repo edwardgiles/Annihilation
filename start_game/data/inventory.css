@@ -11,44 +11,54 @@
 	text-align:right;
 	vertical-align:bottom;
 }
+.inventorytable.large tr td {
+	width:30px;
+	height:42px;
+	cursor:pointer;
+}
+.inventorytable.large tr td:hover {
+	background-color:#000;
+	color:#FF0;
+}
+
 
 /* Page 1, Row 1 */
-.inventorytable.p1 tr td#c0 {
+.inventorytable.p1 tr td.c0 {
 	background-image:url('sprites/basic/wood.png');
 }
-.inventorytable.p1 tr td#c1 {
+.inventorytable.p1 tr td.c1 {
 	background-image:url('sprites/basic/stone.png');
 }
-.inventorytable.p1 tr td#c2 {
+.inventorytable.p1 tr td.c2 {
 	background-image:url('sprites/basic/carbon.png');
 }
-.inventorytable.p1 tr td#c3 {
+.inventorytable.p1 tr td.c3 {
 	background-image:url('sprites/basic/copper.png');
 }
-.inventorytable.p1 tr td#c4 {
+.inventorytable.p1 tr td.c4 {
 	background-image:url('sprites/basic/iron.png');
 }
-.inventorytable.p1 tr td#c5 {
+.inventorytable.p1 tr td.c5 {
 	background-image:url('sprites/basic/alloy.png');
 }
-.inventorytable.p1 tr td#c6 {
+.inventorytable.p1 tr td.c6 {
 	background-image:url('sprites/basic/steel.png');
 }
-.inventorytable.p1 tr td#c7 {
+.inventorytable.p1 tr td.c7 {
 	background-image:url('sprites/basic/gold.png');
 }
 
 /* Page 1, Row 2 */
-.inventorytable.p1 tr td#c8 {
+.inventorytable.p1 tr td.c8 {
 	background-image:url('sprites/basic/woodrod.png');
 }
-.inventorytable.p1 tr td#c9 {
+.inventorytable.p1 tr td.c9 {
 	background-image:url('sprites/basic/ironrod.png');
 }
-.inventorytable.p1 tr td#c10 {
+.inventorytable.p1 tr td.c10 {
 	background-image:url('sprites/basic/goldrod.png');
 }
-.inventorytable.p1 tr td#c11 {
+.inventorytable.p1 tr td.c11 {
 	background-image:url('sprites/basic/carbonrod.png');
 }
 

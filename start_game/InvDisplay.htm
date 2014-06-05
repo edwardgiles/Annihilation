@@ -17,52 +17,67 @@ function readInvInput() {
 	for (var i=0;i<32;i++) {
 		// The next 32 is the radix of the numeric input.
 		if (!splitInventory[i]) { splitInventory[i] = "0"; }
-		document.getElementById("c" + i).innerHTML = parseInt(splitInventory[i], 32);
+		document.getElementById("c" + i).innerHTML = fancyNumber(parseInt(splitInventory[i], 32));
 	}
+}
+prefixes = ["", "k", "M", "G", "T"];
+function fancyNumber2(num, b) {
+	if (num >= 1000) {
+		return fancyNumber2(num / 1000, b + 1);
+	} else if (num < 10) {
+		return num.toFixed(1) + prefixes[b];
+	} else if (num < 100) {
+		return Math.round(num) + prefixes[b];
+	} else {
+		return Math.round(num/10) * 10 + prefixes[b];
+	}
+}
+function fancyNumber(num) {
+	return (num<=1) ? num : fancyNumber2(num, 0)
 }
 </script>
 </head>
 <body onload="readInvInput()">
-		<table id="invtbl" class="inventorytable p1" style="width:338px; height:162px;">
+		<table id="invtbl" class="inventorytable p1">
 			<tr>
-				<td id="c0">0</td>
-				<td id="c1">0</td>
-				<td id="c2">0</td>
-				<td id="c3">0</td>
-				<td id="c4">0</td>
-				<td id="c5">0</td>
-				<td id="c6">0</td>
-				<td id="c7">0</td>
+				<td class="c0" id="c0">0</td>
+				<td class="c1" id="c1">0</td>
+				<td class="c2" id="c2">0</td>
+				<td class="c3" id="c3">0</td>
+				<td class="c4" id="c4">0</td>
+				<td class="c5" id="c5">0</td>
+				<td class="c6" id="c6">0</td>
+				<td class="c7" id="c7">0</td>
 			</tr>
 			<tr>
-				<td id="c8">0</td>
-				<td id="c9">0</td>
-				<td id="c10">0</td>
-				<td id="c11">0</td>
-				<td id="c12">0</td>
-				<td id="c13">0</td>
-				<td id="c14">0</td>
-				<td id="c15">0</td>
+				<td class="c8" id="c8">0</td>
+				<td class="c9" id="c9">0</td>
+				<td class="c10" id="c10">0</td>
+				<td class="c11" id="c11">0</td>
+				<td class="c12" id="c12">0</td>
+				<td class="c13" id="c13">0</td>
+				<td class="c14" id="c14">0</td>
+				<td class="c15" id="c15">0</td>
 			</tr>
 			<tr>
-				<td id="c16">0</td>
-				<td id="c17">0</td>
-				<td id="c18">0</td>
-				<td id="c19">0</td>
-				<td id="c20">0</td>
-				<td id="c21">0</td>
-				<td id="c22">0</td>
-				<td id="c23">0</td>
+				<td class="c16" id="c16">0</td>
+				<td class="c17" id="c17">0</td>
+				<td class="c18" id="c18">0</td>
+				<td class="c19" id="c19">0</td>
+				<td class="c20" id="c20">0</td>
+				<td class="c21" id="c21">0</td>
+				<td class="c22" id="c22">0</td>
+				<td class="c23" id="c23">0</td>
 			</tr>
 			<tr>
-				<td id="c24">0</td>
-				<td id="c25">0</td>
-				<td id="c26">0</td>
-				<td id="c27">0</td>
-				<td id="c28">0</td>
-				<td id="c29">0</td>
-				<td id="c30">0</td>
-				<td id="c31">0</td>
+				<td class="c24" id="c24">0</td>
+				<td class="c25" id="c25">0</td>
+				<td class="c26" id="c26">0</td>
+				<td class="c27" id="c27">0</td>
+				<td class="c28" id="c28">0</td>
+				<td class="c29" id="c29">0</td>
+				<td class="c30" id="c30">0</td>
+				<td class="c31" id="c31">0</td>
 			</tr>
 		</table>
 </body>

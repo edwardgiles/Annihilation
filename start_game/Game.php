@@ -6,18 +6,19 @@
 <link rel="stylesheet" type="text/css" href="global.css">
 <script type="text/javascript" src="data/Inventory.js"></script>
 <script type="text/javascript">
-var inv = new Inventory(10000)
-var buildingData = [];
-for (var i=0;i<10;i++) {
-	buildingData[i] = [];
-	for (var j=0;j<10;j++) {
-		buildingData[i][j] = 0;
+var a = new IX(10000)
+var b = [];
+for (var it=11;--it;) {
+	b[it] = [];
+	for (var ch=11;--ch;) {
+		// BITCH
+		b[it][ch] = 0;
 	}
 }
-function updateInvScreen() {
-	var serialized = inv.serializePart((InvRender.page - 1)*32, 32);
-	document.getElementById("inventory").src = "InvDisplay.htm?page=" + InvRender.page + "&contents=" + serialized;
-	document.getElementById("inventoryWeight").innerText = "Weight: " + inv.currentWeight.toFixed(2) + "kg/10000kg"
+function uis() {
+	var c = a.serializePart((InvRender.page - 1)*32, 32);
+	document.getElementById("inventory").src = "InvDisplay.htm?page=" + InvRender.page + "&contents=" + c;
+	document.getElementById("inventoryWeight").innerText = "Weight: " + a.currentWeight.toFixed(2) + "kg/10000kg"
 }
 function activate(id) {
 	var chcontrols = document.getElementById("container").childNodes;
@@ -30,7 +31,7 @@ function serializeBuilding() {
 	var result_so_far = "";
 	for (var i=0;i<10;i++) {
 		for (var j=0;j<10;j++) {
-			result_so_far += buildingData[i][j].toString(32);
+			result_so_far += b[i][j].toString(32);
 		}
 	}
 	return result_so_far;
@@ -40,20 +41,20 @@ function receiveMessage(event)
 {
   	var data = event.data;
   	if (data[0]=="Building") {
-  		buildingData[data[1]][data[2]] = data[3];
+  		b[data[1]][data[2]] = data[3];
   	} else if (data[0]=="BuildingExtern") {
-		buildingData[data[1]][data[2]] = data[3];
+		b[data[1]][data[2]] = data[3];
 		document.getElementById("buildingControl").contentWindow.postMessage(data, "*");
 	} else if (data[0]=="Inventory") {
-		inv.inventoryData[data[1]] = data[2];
-		inv.recalcStoredWeight()
-		updateInvScreen();
+		a.inventoryData[data[1]] = data[2];
+		a.recalcStoredWeight()
+		uis();
 	}
 }
-function deserializeBuilding(buildingData) {
+function deserializeBuilding(b) {
 	for (var i=0;i<10;i++) {
 		for (var j=0;j<10;j++) {
-			document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", i, j, parseInt(buildingData.charAt(i * 10 + j), 32)], "*");
+			document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", i, j, parseInt(b.charAt(i * 10 + j), 32)], "*");
 		}
 	}
 }
@@ -62,45 +63,52 @@ function errorfunction() {
 }
 </script>
 <?php
-$loginname = "root";
-$loginpass = "test";
-$dbname = "quest";
-
-$dblink = mysqli_connect("localhost", $loginname, $loginpass, $dbname) or die("Failed to connect to database");
-$id = $_SESSION['id'];
+// Sets $dblink to a link to the database.
+include("data/dbconnect.php");
+// $id = $_SESSION['id'];
+$id = 5;
 if ($id) {
 	$querylink = mysqli_query($dblink, "SELECT * FROM `playerdata` WHERE `UserID`='$id'") or die("Query failed");
-	$arr = mysqli_fetch_array($querylink, MYSQL_ASSOC) or die("Array fetch failed");
+	$arr = mysqli_fetch_array($querylink) or die("Array fetch failed");
 	echo('<script type="text/javascript">
 	errorfunction = function() {
-	inv.deserialize("' . $arr['Inventory1'] . $arr['Inventory2'] . $arr['Inventory3'] . $arr['Inventory4'] . '");
+	a.deserialize("' . $arr['Inventory1'] . $arr['Inventory2'] . $arr['Inventory3'] . $arr['Inventory4'] . '");
 	deserializeBuilding("' . $arr['Building'] . '");
 	} </script>');
 }
 mysqli_close($dblink);
 ?>
 </head>
-<body onLoad="errorfunction(); updateInvScreen();">
+<body onload="errorfunction(); uis();">
 <h1>Annihilation - Domination</h1>
 
-<div id="container">
-	<div class="tabactivated" id="inventoryTab"><div class="tabheader" onClick="activate('inventoryTab')">Inventory</div>
-		<div class="tabcontent">
-			<iframe src="InvDisplay.htm" id="inventory" style="width:360px; height:190px;" scrolling="no"></iframe>
-			<div class="vertcentred">
-				<input type="button" value="Prev" onClick="InvRender.prevPage(); updateInvScreen()"> 
-				Page <span id="pagenav">1</span> of 4 
-				<input type="button" value="Next" onClick="InvRender.nextPage(); updateInvScreen()">
-                <span id="inventoryWeight">Weight: 0</span>
+<table style="width:100%; height:100%;">
+	<tr>
+		<td style="vertical-align: top;">
+			<div id="container">
+				<div class="tabactivated" id="inventoryTab"><div class="tabheader" onclick="activate('inventoryTab')">Inventory</div>
+					<div class="tabcontent">
+						<iframe src="InvDisplay.htm?page=1&contents=" id="inventory" style="width:360px; height:190px;" scrolling="no"></iframe>
+						<div class="vertcentred">
+							<input type="button" value="Prev" onclick="InvRender.prevPage(); uis()"> 
+							Page <span id="pagenav">1</span> of 4 
+							<input type="button" value="Next" onclick="InvRender.nextPage(); uis()">
+    	            		<span id="inventoryWeight">Weight: 0</span>
+						</div>
+					</div>
+				</div>
+				<div class="tab" id="builderTab"><div class="tabheader" onclick="activate('builderTab')">Builder</div>
+					<div class="tabcontent">
+        				<iframe name="buildingControl" id="buildingControl" src="Building.htm" style="width:450px; height: 320px;"></iframe>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-	<div class="tab" id="builderTab"><div class="tabheader" onClick="activate('builderTab')">Builder</div>
-		<div class="tabcontent">
-        	<iframe name="buildingControl" id="buildingControl" src="Building.htm" style="width:450px; height: 320px;"></iframe>
-		</div>
-	</div>
-</div>
+		</td>
+		<td style="width:400px; vertical-align: top;">
+		<iframe name="chat" id="chat" style="width:100%; height:100%;" src="Chat.htm"></iframe>
+		</td>
+	</tr>
+</table>
 </body>
 
 </html>
