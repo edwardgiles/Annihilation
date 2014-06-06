@@ -118,3 +118,4 @@ IX.prototype.weights[8]  = 0.21; // Stick
 IX.prototype.weights[9]  = 0.39; // Ironrod
 IX.prototype.weights[10] = 1.08; // Goldrod
 IX.prototype.weights[11] = 0.22; // Carbonrod
+IX.prototype.weights[12] = 5.20; // Wall

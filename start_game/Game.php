@@ -1,4 +1,5 @@
 ﻿<?php session_start(); ?>
+
 <html>
 <head>
 <title>Annihilation Domination</title>
@@ -8,17 +9,14 @@
 <script type="text/javascript">
 var a = new IX(10000)
 var b = [];
-for (var it=11;--it;) {
-	b[it] = [];
-	for (var ch=11;--ch;) {
-		// BITCH
-		b[it][ch] = 0;
-	}
-}
+var buildingIDs = [12, 12, 12, 12]
 function uis() {
 	var c = a.serializePart((InvRender.page - 1)*32, 32);
 	document.getElementById("inventory").src = "InvDisplay.htm?page=" + InvRender.page + "&contents=" + c;
 	document.getElementById("inventoryWeight").innerText = "Weight: " + a.currentWeight.toFixed(2) + "kg/10000kg"
+	for (var i=0;i<buildingIDs.length;i++) {
+		document.getElementById("available" + buildingIDs[i]).innerText = a.getQuantity(buildingIDs[i]);
+	}
 }
 function activate(id) {
 	var chcontrols = document.getElementById("container").childNodes;
@@ -41,7 +39,7 @@ function receiveMessage(event)
 {
   	var data = event.data;
   	if (data[0]=="Building") {
-  		b[data[1]][data[2]] = data[3];
+  		updBuildingResources(data);
   	} else if (data[0]=="BuildingExtern") {
 		b[data[1]][data[2]] = data[3];
 		document.getElementById("buildingControl").contentWindow.postMessage(data, "*");
@@ -51,15 +49,38 @@ function receiveMessage(event)
 		uis();
 	}
 }
-function deserializeBuilding(b) {
+function deserializeBuilding(bstr) {
+	b = [];
 	for (var i=0;i<10;i++) {
+		b[i] = [];
 		for (var j=0;j<10;j++) {
-			document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", i, j, parseInt(b.charAt(i * 10 + j), 32)], "*");
+			b[i][j] = parseInt(bstr.charAt(i * 10 + j), 32);
+			document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", i, j, parseInt(bstr.charAt(i * 10 + j), 32)], "*");
 		}
 	}
 }
 function errorfunction() {
 	document.getElementById("container").innerHTML = '<p style="background-color:red;">An error occured. Please log in again.</p>'
+}
+function updBuildingResources(data) {
+	var prevtile = b[data[1]][data[2]];
+	var currenttile = data[3];
+	for (var i=1; i<=buildingIDs.length;i++) {
+		if (prevtile == 0 & currenttile == i) {
+			if (a.tryConsumeItem(buildingIDs[i - 1], 1)) {
+				b[data[1]][data[2]] = data[3];
+			} else {
+				document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", data[1], data[2], 0], "*");
+			}
+		} else if (prevtile == i & currenttile == 0) {
+			if (a.addItem(buildingIDs[i - 1], 1)) {
+				b[data[1]][data[2]] = 0;
+			} else {
+				document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", data[1], data[2], prevtile], "*");
+			}
+		}
+	}
+	uis()
 }
 </script>
 <?php
@@ -99,6 +120,7 @@ mysqli_close($dblink);
 				</div>
 				<div class="tab" id="builderTab"><div class="tabheader" onclick="activate('builderTab')">Builder</div>
 					<div class="tabcontent">
+						<img alt="Walls available" src="data/sprites/basic/stonewall.png"> = <span id="available12">0</span><br>
         				<iframe name="buildingControl" id="buildingControl" src="Building.htm" style="width:450px; height: 320px;"></iframe>
 					</div>
 				</div>

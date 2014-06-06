@@ -20,20 +20,32 @@ function readInvInput() {
 		document.getElementById("c" + i).innerHTML = fancyNumber(parseInt(splitInventory[i], 32));
 	}
 }
-prefixes = ["", "k", "M", "G", "T"];
-function fancyNumber2(num, b) {
-	if (num >= 1000) {
-		return fancyNumber2(num / 1000, b + 1);
-	} else if (num < 10) {
-		return num.toFixed(1) + prefixes[b];
-	} else if (num < 100) {
-		return Math.round(num) + prefixes[b];
-	} else {
-		return Math.round(num/10) * 10 + prefixes[b];
-	}
+function small(text) {
+	return '<span class="small">' + text + '</span>';
 }
-function fancyNumber(num) {
-	return (num<=1) ? num : fancyNumber2(num, 0)
+prefixes = ["", "k", "M", "B", "T"];
+function fancyNumber(num, b) {
+	if (!b) {
+		b = 0;
+	}
+	if (b == 0 & num < 10000) {
+		return num;
+	}
+	if (num >= 1000) {
+		return fancyNumber(num / 1000, b + 1);
+	} else if (b < prefixes.length) {
+		if (b == 0) {
+			return num;
+		} else if (num < 10) {
+			return num.toFixed(1) + prefixes[b];
+		} else if (num < 100) {
+			return Math.round(num) + prefixes[b];
+		} else {
+			return Math.round(num/10) * 10 + prefixes[b];
+		}
+	} else {
+		return "+";
+	}
 }
 </script>
 </head>

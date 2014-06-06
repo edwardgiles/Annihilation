@@ -20,6 +20,9 @@
 	background-color:#000;
 	color:#FF0;
 }
+.small {
+	font-size:8pt;
+}
 
 
 /* Page 1, Row 1 */
@@ -61,4 +64,6 @@
 .inventorytable.p1 tr td.c11 {
 	background-image:url('sprites/basic/carbonrod.png');
 }
-
+.inventorytable.p1 tr td.c12 {
+	background-image:url('sprites/basic/stonewall.png');
+}
