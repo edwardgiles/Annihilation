@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../style_main/style.css" type="text/css" rel="stylesheet" />
@@ -27,7 +28,7 @@
 <input type="hidden" name="password_hash" placeholder="Password" class="loginPage" id="password_hash"/>
 <br>
 <br>
-<input type="submit" class="loginReal" value="Login" onMouseOver="beforeSubmit()"/>
+<input type="submit" class="loginReal" value="Login" onMouseOver="focus();" onfocus="beforeSubmit()"/>
 </form>
 <br>
 <br>

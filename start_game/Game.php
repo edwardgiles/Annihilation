@@ -4,8 +4,8 @@
 <head>
 <title>Annihilation Domination</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="global.css">
-<script type="text/javascript" src="data/Inventory.js"></script>
+<link rel="stylesheet" type="text/css" href="data/swag.php?yolo=text/css&swag=SWAG&swaɡ=SWAG">
+<script type="text/javascript" src="data/swag.php?yolo=text/javascript&swag=SWAG&swaɡ=ALSOSWAG"></script>
 <script type="text/javascript">
 var a = new IX(10000)
 var b = [];
@@ -82,12 +82,23 @@ function updBuildingResources(data) {
 	}
 	uis()
 }
+function updControls() {
+	document.getElementById("Inv1Submit").value = a.serializePart(0, 32);
+	document.getElementById("Inv2Submit").value = a.serializePart(32, 32);
+	document.getElementById("Inv3Submit").value = a.serializePart(64, 32);
+	document.getElementById("Inv4Submit").value = a.serializePart(96, 32);
+	document.getElementById("BuildingSubmit").value = serializeBuilding();
+}
+function bu() {
+	updControls();
+	document.getElementById("savedataform").submit();
+	return "Exit the game?";
+}
 </script>
 <?php
 // Sets $dblink to a link to the database.
-include("data/dbconnect.php");
-// $id = $_SESSION['id'];
-$id = 5;
+include("data/cgi/dbconnect.php");
+$id = $_SESSION['id'];
 if ($id) {
 	$querylink = mysqli_query($dblink, "SELECT * FROM `playerdata` WHERE `UserID`='$id'") or die("Query failed");
 	$arr = mysqli_fetch_array($querylink) or die("Array fetch failed");
@@ -100,10 +111,10 @@ if ($id) {
 mysqli_close($dblink);
 ?>
 </head>
-<body onload="errorfunction(); uis();">
+<body onload="errorfunction(); uis(); updControls();" onbeforeunload="bu();">
 <h1>Annihilation - Domination</h1>
 
-<table style="width:100%; height:100%;">
+<table style="width:100%; height:70%;">
 	<tr>
 		<td style="vertical-align: top;">
 			<div id="container">
@@ -131,6 +142,16 @@ mysqli_close($dblink);
 		</td>
 	</tr>
 </table>
+<form method="post" action="data\cgi\savedata.php" id="savedataform">
+	<input type="hidden" name="UserID" value="<?php echo($id); ?>" >
+	<input type="hidden" name="Inv1" id="Inv1Submit" value="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;" >
+	<input type="hidden" name="Inv2" id="Inv2Submit" value="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;" >
+	<input type="hidden" name="Inv3" id="Inv3Submit" value="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;" >
+	<input type="hidden" name="Inv4" id="Inv4Submit" value="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;" >
+	<input type="hidden" name="Building" id="BuildingSubmit" value="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" >
+	<input type="submit" name="Submit" style="width: 200px; height: 40px; font-size:18pt;" value="Save" onmouseenter="focus();" onfocus="updControls()">
+</form>
+<p style="font-size:9pt;">Your progress is also saved when you close the browser.</p>
 </body>
 
 </html>

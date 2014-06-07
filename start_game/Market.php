@@ -1,4 +1,4 @@
-<?php include("data/dbconnect.php") ?>
+<?php include("data/cgi/dbconnect.php") ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -29,28 +29,31 @@ function marketclicked(id) {
 </script>
 </head>
 <body>
+<div id="buysellinterface">
+<input type="button" value="Buy" /> <input type="button" value="Sell" />
+</div>
 <table id="market-p1" class="inventorytable large p1">
 <?php
 	$pgstart = 0;
-	include('data/market.part.php');
+	include('data/cgi/market.part.php');
 ?>
 </table>
 <table id="market-p2" class="inventorytable large p2">
 <?php
 	$pgstart = 2;
-	include('data/market.part.php');
+	include('data/cgi/market.part.php');
 ?>
 </table>
 <table id="market-p3" class="inventorytable large p3">
 <?php
 	$pgstart = 4;
-	include('data/market.part.php');
+	include('data/cgi/market.part.php');
 ?>
 </table>
 <table id="market-p4" class="inventorytable large p4">
 <?php
 	$pgstart = 6;
-	include('data/market.part.php');
+	include('data/cgi/market.part.php');
 ?>
 </table>
 <?php mysqli_close($dblink); ?>
