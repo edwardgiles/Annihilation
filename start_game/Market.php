@@ -9,53 +9,51 @@
 echo '<script type="text/javascript">
 /* This was created by a PHP script. */
 var Market = [];
-Market.length = 256;
+Market.length = 128;
 ';
 	$prices = array();
-	$q = mysqli_query($dblink, "SELECT `ItemID`,`Price` FROM market WHERE 1");
+	$q = mysqli_query($dblink, "SELECT `ItemID`,`Price` FROM market WHERE 1 ORDER BY `ItemID`");
 	while ($a = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
 		$iid = $a['ItemID'];
 		$iprice = $a['Price'];
 		echo "Market[$iid] = $iprice;\n";
-		// To be used in market.part.php
-		$prices[$iid] = $iprice;
 	}
 	echo '</script>';
 ?>
-<script type="text/javascript">
-function marketclicked(id) {
-	
-}
-</script>
+<script type="text/javascript" src="data/ItemNames.js"></script>
+<script type="text/javascript" src="data/Market.js"></script>
 </head>
 <body>
-<div id="buysellinterface">
-<input type="button" value="Buy" /> <input type="button" value="Sell" />
-</div>
-<table id="market-p1" class="inventorytable large p1">
+<table class="inventorytable large">
+<tbody id="market-p1" class="inventorytable large p1">
 <?php
 	$pgstart = 0;
 	include('data/cgi/market.part.php');
 ?>
-</table>
-<table id="market-p2" class="inventorytable large p2">
+</tbody>
+<tbody id="market-p2" class="inventorytable large p2">
 <?php
 	$pgstart = 2;
 	include('data/cgi/market.part.php');
 ?>
-</table>
-<table id="market-p3" class="inventorytable large p3">
+</tbody>
+<tbody id="market-p3" class="inventorytable large p3">
 <?php
 	$pgstart = 4;
 	include('data/cgi/market.part.php');
 ?>
-</table>
-<table id="market-p4" class="inventorytable large p4">
+</tbody>
+<tbody id="market-p4" class="inventorytable large p4">
 <?php
 	$pgstart = 6;
 	include('data/cgi/market.part.php');
 ?>
+</tbody>
 </table>
+<input type="button" value="Buy" /> <input type="button" value="Sell" />
+<div id="buysellinterface">
+
+</div>
 <?php mysqli_close($dblink); ?>
 </body>
 

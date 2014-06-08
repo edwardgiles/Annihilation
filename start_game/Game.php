@@ -4,12 +4,12 @@
 <head>
 <title>Annihilation Domination</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="data/swag.php?yolo=text/css&swag=SWAG&swaɡ=SWAG">
+<link rel="stylesheet" type="text/css" href="data/swag.php?yolo=text/css&swaɡ=SWAG&swag=SWAG">
 <script type="text/javascript" src="data/swag.php?yolo=text/javascript&swag=SWAG&swaɡ=ALSOSWAG"></script>
 <script type="text/javascript">
 var a = new IX(10000)
 var b = [];
-var buildingIDs = [12, 12, 12, 12]
+var buildingIDs = [12, 13, 12, 12, 12, 12]
 function uis() {
 	var c = a.serializePart((InvRender.page - 1)*32, 32);
 	document.getElementById("inventory").src = "InvDisplay.htm?page=" + InvRender.page + "&contents=" + c;
@@ -60,28 +60,41 @@ function deserializeBuilding(bstr) {
 	}
 }
 function errorfunction() {
-	document.getElementById("container").innerHTML = '<p style="background-color:red;">An error occured. Please log in again.</p>'
+	document.write('<p style="background-color:red;">An error occured. Please log in again.</p>');
 }
 function updBuildingResources(data) {
 	var prevtile = b[data[1]][data[2]];
 	var currenttile = data[3];
 	for (var i=1; i<=buildingIDs.length;i++) {
 		if (prevtile == 0 & currenttile == i) {
-			if (a.tryConsumeItem(buildingIDs[i - 1], 1)) {
-				b[data[1]][data[2]] = data[3];
-			} else {
-				document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", data[1], data[2], 0], "*");
-			}
 		} else if (prevtile == i & currenttile == 0) {
-			if (a.addItem(buildingIDs[i - 1], 1)) {
-				b[data[1]][data[2]] = 0;
-			} else {
-				document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", data[1], data[2], prevtile], "*");
-			}
 		}
 	}
 	uis()
 }
+function updBuildingResources(data) {
+	var prevtile = b[data[1]][data[2]];
+	var currenttile = data[3];
+	// Produce the item corresponding to prevtile
+	if (prevtile != 0) {
+		if (a.addItem(buildingIDs[prevtile - 1], 1)) {
+			b[data[1]][data[2]] = 0;
+		} else {
+			document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", data[1], data[2], prevtile], "*");
+			return;
+		}
+	}
+	// Consume the item corresponding to currenttile
+	if (currenttile != 0) {
+		if (a.tryConsumeItem(buildingIDs[currenttile - 1], 1)) {
+			b[data[1]][data[2]] = currenttile;
+		} else {
+			document.getElementById("buildingControl").contentWindow.postMessage(["BuildingExtern", data[1], data[2], 0], "*");
+		}
+    }
+	uis()
+}
+
 function updControls() {
 	document.getElementById("Inv1Submit").value = a.serializePart(0, 32);
 	document.getElementById("Inv2Submit").value = a.serializePart(32, 32);
@@ -92,13 +105,13 @@ function updControls() {
 function bu() {
 	updControls();
 	document.getElementById("savedataform").submit();
-	return "Exit the game?";
 }
 </script>
 <?php
 // Sets $dblink to a link to the database.
 include("data/cgi/dbconnect.php");
-$id = $_SESSION['id'];
+//$id = $_SESSION['id'];
+$id = 5;
 if ($id) {
 	$querylink = mysqli_query($dblink, "SELECT * FROM `playerdata` WHERE `UserID`='$id'") or die("Query failed");
 	$arr = mysqli_fetch_array($querylink) or die("Array fetch failed");
@@ -108,13 +121,12 @@ if ($id) {
 	deserializeBuilding("' . $arr['Building'] . '");
 	} </script>');
 }
-mysqli_close($dblink);
 ?>
 </head>
 <body onload="errorfunction(); uis(); updControls();" onbeforeunload="bu();">
 <h1>Annihilation - Domination</h1>
 
-<table style="width:100%; height:70%;">
+<table style="width:100%; height:80%;">
 	<tr>
 		<td style="vertical-align: top;">
 			<div id="container">
@@ -131,13 +143,21 @@ mysqli_close($dblink);
 				</div>
 				<div class="tab" id="builderTab"><div class="tabheader" onclick="activate('builderTab')">Builder</div>
 					<div class="tabcontent">
-						<img alt="Walls available" src="data/sprites/basic/stonewall.png"> = <span id="available12">0</span><br>
+						<table><tbody><tr>
+							<td><img alt="Walls available" src="data/sprites/basic/stonewall.png"> = <span id="available12">0</span></td>
+							<td><img alt="Alloy walls available" src="data/sprites/basic/alloywall.png"> = <span id="available13">0</span></td>
+						</tr></tbody></table>
         				<iframe name="buildingControl" id="buildingControl" src="Building.htm" style="width:450px; height: 320px;"></iframe>
+					</div>
+				</div>
+				<div class="tab" id="marketTab"><div class="tabheader" onclick="activate('marketTab')">Market</div>
+					<div class="tabcontent">
+        				<iframe name="marketControl" id="marketControl" src="Market.php" style="width:100%;height:470px;"></iframe>
 					</div>
 				</div>
 			</div>
 		</td>
-		<td style="width:400px; vertical-align: top;">
+		<td style="width:300px; vertical-align: top;">
 		<iframe name="chat" id="chat" style="width:100%; height:100%;" src="Chat.htm"></iframe>
 		</td>
 	</tr>

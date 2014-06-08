@@ -1,6 +1,6 @@
 ﻿var Building = {};
 Building.tool = 1;
-Building.numTypes = 5;
+Building.numTypes = 7;
 Building.sideLength = 10;
 Building.getX = function(cellX, cellY) {
 	return 200 - 20 * (cellX - cellY)
@@ -46,7 +46,7 @@ Building.cell_click = function(cellX, cellY) {
 }
 Building.cell_click2 = function(cellX, cellY) {
 	if (cellX==0|cellY==0|cellY>=Building.sideLength - 1|cellX>=Building.sideLength - 1) {
-		if (Building.data[cellX][cellY]==0 & Building.tool==1) {
+		if (Building.data[cellX][cellY]<=2 & Building.tool<=2 & Building.tool>0) {
 			Building.cellUpd(cellX, cellY)
 		}
 	} else {
