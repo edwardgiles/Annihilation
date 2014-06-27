@@ -8,6 +8,6 @@
 	$inv4 = $_POST['Inv4'];
 	mysqli_query($dblink, "UPDATE `playerdata` SET `Inventory1`='$inv1',`Inventory2`='$inv2',`Inventory3`='$inv3',`Inventory4`='$inv4',`Building`='$building' WHERE `UserID`='$id'");
 	mysqli_close($dblink);
-	/* Show redirect button */
+	# Show redirect button
 	echo('<p>Your progress has been saved.</p><input type="button" value="Return to Game" onclick="window.location.replace(\'../../Game.php\');" />');
 ?>

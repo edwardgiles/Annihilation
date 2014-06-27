@@ -4,10 +4,10 @@
 <head>
 <title>Annihilation Domination</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="data/swag.php?yolo=text/css&swaɡ=SWAG&swag=SWAG">
-<script type="text/javascript" src="data/swag.php?yolo=text/javascript&swag=SWAG&swaɡ=ALSOSWAG"></script>
+<link rel="stylesheet" type="text/css" href="data/global.css">
+<script type="text/javascript" src="data/Inventory.js"></script>
 <script type="text/javascript">
-var a = new IX(10000)
+var a = new Inventory(10000)
 var b = [];
 var buildingIDs = [12, 13, 12, 12, 12, 12]
 function uis() {
@@ -110,8 +110,7 @@ function bu() {
 <?php
 // Sets $dblink to a link to the database.
 include("data/cgi/dbconnect.php");
-//$id = $_SESSION['id'];
-$id = 5;
+$id = $_SESSION['id'];
 if ($id) {
 	$querylink = mysqli_query($dblink, "SELECT * FROM `playerdata` WHERE `UserID`='$id'") or die("Query failed");
 	$arr = mysqli_fetch_array($querylink) or die("Array fetch failed");

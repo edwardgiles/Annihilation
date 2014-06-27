@@ -1,19 +1,27 @@
 ﻿var ItemNames = [];
+var ItemNameToID = {};
 ItemNames.length = 128;
 for (var i=0;i<128;i++) {
 	ItemNames[i] = "ID" + i;
+	ItemNameToID["ID" + i] = i;
 }
-ItemNames[0]   = "Wood";
-ItemNames[1]   = "Stone";
-ItemNames[2]   = "Carbon";
-ItemNames[3]   = "Copper";
-ItemNames[4]   = "Iron Ingot";
-ItemNames[5]   = "Alloy Ingot";
-ItemNames[6]   = "Steel Ingot";
-ItemNames[7]   = "Gold Ingot";
-ItemNames[8]   = "Stick";
-ItemNames[9]   = "Iron Rod";
-ItemNames[10]  = "Gold Rod";
-ItemNames[11]  = "Carbon Rod";
-ItemNames[12]  = "Stone Wall";
-ItemNames[13]  = "Alloy Wall";
+ItemNameToID.AddItem = function(id, name) {
+	ItemNames[id] = name;
+	ItemNameToID[name] = id;
+}
+ItemNameToID.English = function() {
+	ItemNameToID.AddItem(0  ,"Wood");
+	ItemNameToID.AddItem(1  ,"Stone");
+	ItemNameToID.AddItem(2  ,"Carbon");
+	ItemNameToID.AddItem(3  ,"Copper");
+	ItemNameToID.AddItem(4  ,"Iron");
+	ItemNameToID.AddItem(5  ,"Alloy");
+	ItemNameToID.AddItem(6  ,"Steel");
+	ItemNameToID.AddItem(7  ,"Gold");
+	ItemNameToID.AddItem(8  ,"Stick");
+	ItemNameToID.AddItem(9  ,"Iron Rod");
+	ItemNameToID.AddItem(10 ,"Gold Rod");
+	ItemNameToID.AddItem(11 ,"Carbon Rod");
+	ItemNameToID.AddItem(12 ,"Stone Wall");
+	ItemNameToID.AddItem(13 ,"Alloy Wall");
+}
